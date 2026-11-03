@@ -1,0 +1,23 @@
+{
+	"schemaVersion": 1,
+	"id": "tada",
+	"version": "${version}",
+	"name": "TADA - Trimmed Abilities Dyeable Armor",
+	"description": "Dyeable obsidian armor. Armor trims grant potion effects.",
+	"authors": ["Knito58"],
+	"contact": {
+		"sources": "https://github.com/Knito58/tada"
+	},
+	"license": "CC0-1.0",
+	"icon": "assets/tada/icon.png",
+	"environment": "*",
+	"entrypoints": {
+		"main": ["de.knito.tada.Tada"]
+	},
+	"depends": {
+		"fabricloader": ">=0.19.3",
+		"minecraft": "~26.3",
+		"java": ">=25",
+		"fabric-api": "*"
+	}
+}

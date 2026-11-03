@@ -1,0 +1,17 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "equipment",
+  "key": {
+    "O": "minecraft:obsidian",
+    "A": "minecraft:amethyst_shard",
+    "G": "minecraft:gold_ingot"
+  },
+  "pattern": [
+    "OAO",
+    "O O",
+    "G G"
+  ],
+  "result": {
+    "id": "tada:obsidian_leggings"
+  }
+}

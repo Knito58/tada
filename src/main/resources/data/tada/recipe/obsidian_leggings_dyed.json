@@ -1,0 +1,9 @@
+{
+  "type": "minecraft:crafting_dye",
+  "dye": "#minecraft:dyes",
+  "group": "dyed_armor",
+  "target": "tada:obsidian_leggings",
+  "result": {
+    "id": "tada:obsidian_leggings"
+  }
+}

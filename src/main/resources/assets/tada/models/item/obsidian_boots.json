@@ -1,0 +1,7 @@
+{
+  "parent": "minecraft:item/generated",
+  "textures": {
+    "layer0": "tada:item/obsidian_boots",
+    "layer1": "tada:item/obsidian_boots_overlay"
+  }
+}
