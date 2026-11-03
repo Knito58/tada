@@ -35,14 +35,17 @@ Knockback Resistance removed (attribute, not a potion effect).
 
 ## 5. Gold and piglins
 - A piece with a gold trim material counts as golden armor for piglins, which removes the need for Distracting Trims.
-- Plan: mixin into the piglin gold-armor check. To verify in 26.3 source (the check may be tag-based).
+- Verified in 26.3: `PiglinAi.isWearingSafeArmor` checks only the item tag `piglin_safe_armor` (golden armor), nothing about trims. Implemented as a mixin (`PiglinAiMixin`) that also returns true for any worn piece with a gold trim material. Option `goldTrimCountsForPiglins`.
 
 ## 6. Open items
-- Check the 26.3 template list for new templates.
+- Checked: 26.3 has the same 18 trim patterns, no new templates.
 - Hang glider mod compatibility: Slow Falling test needed.
 - Mod id, name and license to be set when the repo exists.
 
-## 7. Steps
+## 7. Config (config/tada.json)
+checkIntervalTicks 100, effectDurationTicks 140, strengthLevelsPerPiece 2, strengthMaxLevel 8, onlyTadaArmor false (any trimmed armor gives abilities), goldTrimCountsForPiglins true.
+
+## 8. Steps
 1. This spec (done once approved).
 2. Fabric project, armor, recipes, textures, dyeing.
 3. Trim abilities and gold/piglin behaviour.

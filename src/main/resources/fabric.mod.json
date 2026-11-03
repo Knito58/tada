@@ -11,6 +11,7 @@
 	"license": "CC0-1.0",
 	"icon": "assets/tada/icon.png",
 	"environment": "*",
+	"mixins": ["tada.mixins.json"],
 	"entrypoints": {
 		"main": ["de.knito.tada.Tada"]
 	},
