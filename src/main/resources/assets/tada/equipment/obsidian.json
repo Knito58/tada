@@ -1,0 +1,37 @@
+{
+  "layers": {
+    "humanoid": [
+      {
+        "dyeable": {
+          "color_when_undyed": -11843758
+        },
+        "texture": "tada:obsidian"
+      },
+      {
+        "texture": "tada:obsidian_overlay"
+      }
+    ],
+    "humanoid_leggings": [
+      {
+        "dyeable": {
+          "color_when_undyed": -11843758
+        },
+        "texture": "tada:obsidian"
+      },
+      {
+        "texture": "tada:obsidian_overlay"
+      }
+    ],
+    "humanoid_baby": [
+      {
+        "dyeable": {
+          "color_when_undyed": -11843758
+        },
+        "texture": "tada:obsidian"
+      },
+      {
+        "texture": "tada:obsidian_overlay"
+      }
+    ]
+  }
+}
