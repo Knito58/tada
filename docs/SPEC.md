@@ -28,7 +28,7 @@ No ability yet: Sentry, Dune, Shaper (reserved, open for later).
 Knockback Resistance removed (attribute, not a potion effect).
 
 ## 4. Mechanics
-- Every 5 s a wear test runs per player. For each worn trimmed piece, the matching effect is applied for 7 s, so there is no gap.
+- Every 5 s a wear test runs per player. For each worn trimmed piece, the matching effect is applied for 16 s (320 ticks). Vanilla blinks the HUD icon and flickers Night Vision while 200 ticks or less remain, so the remaining time must stay above 200 between refreshes: duration at least interval + 201. Side effect: an effect lingers up to 16 s after the piece is taken off.
 - Effect particles hidden, effect icon and timer visible (vanilla behaviour).
 - Strength: +2 levels per Strength-trimmed piece. 1 piece = Strength II, 4 pieces = Strength VIII. Configurable cap and step.
 - Same ability from several pieces does not stack, except Strength as above.
@@ -44,7 +44,7 @@ Knockback Resistance removed (attribute, not a potion effect).
 - Mod id, name and license to be set when the repo exists.
 
 ## 7. Config (config/tada.json)
-checkIntervalTicks 100, effectDurationTicks 140, strengthLevelsPerPiece 2, strengthMaxLevel 8, onlyTadaArmor false (any trimmed armor gives abilities), goldTrimCountsForPiglins true.
+checkIntervalTicks 100, effectDurationTicks 320 (raised on load to at least interval + 201), strengthLevelsPerPiece 2, strengthMaxLevel 8, onlyTadaArmor false (any trimmed armor gives abilities), goldTrimCountsForPiglins true.
 
 ## 8. Steps
 1. This spec (done once approved).
