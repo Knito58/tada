@@ -40,6 +40,13 @@ jobs:
         run: ./gradlew build
       - name: read mod version
         run: echo "MOD_VERSION=$(grep '^version=' gradle.properties | cut -d= -f2)" >> "$GITHUB_ENV"
+      - name: list relevant CurseForge game version names
+        continue-on-error: true
+        env:
+          CF_TOKEN: ${{ secrets.CURSEFORGE_TOKEN }}
+        run: |
+          curl -fsS -H "X-Api-Token: $CF_TOKEN" https://minecraft.curseforge.com/api/game/versions \
+            | python3 -c "import sys,json; [print(v['id'], v['gameVersionTypeID'], v['name']) for v in json.load(sys.stdin) if any(k in v['name'] for k in ('26.','Client','Server','Java 2','Fabric'))]"
       - name: upload to CurseForge
         uses: Kir-Antipov/mc-publish@v3.3.0
         with:
