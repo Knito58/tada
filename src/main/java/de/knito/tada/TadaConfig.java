@@ -16,8 +16,13 @@ public final class TadaConfig {
 
 	/** How often (ticks) the worn armor is checked per player. 100 = 5 s. */
 	public int checkIntervalTicks = 100;
-	/** Duration (ticks) of each applied effect. 140 = 7 s. Must exceed the interval, or there are gaps. */
-	public int effectDurationTicks = 140;
+	/**
+	 * Duration (ticks) of each applied effect. 320 = 16 s.
+	 * Vanilla blinks the HUD icon and flickers Night Vision brightness while an effect has 200 ticks or less left.
+	 * Refreshing every 100 ticks keeps the remaining time between 220 and 320, so nothing blinks.
+	 * Values below checkIntervalTicks + 201 are raised to that minimum on load.
+	 */
+	public int effectDurationTicks = 320;
 	/** Strength levels added per Strength-trimmed piece. 2: one piece = Strength II. */
 	public int strengthLevelsPerPiece = 2;
 	/** Highest Strength level that can be reached. 8 = Strength VIII (4 pieces at 2 levels). */
@@ -56,7 +61,8 @@ public final class TadaConfig {
 
 	private void sanitize() {
 		checkIntervalTicks = Math.max(1, checkIntervalTicks);
-		effectDurationTicks = Math.max(checkIntervalTicks + 20, effectDurationTicks);
+		// Remaining time must never fall to 200 ticks, or the HUD icon blinks and Night Vision flickers.
+		effectDurationTicks = Math.max(checkIntervalTicks + 201, effectDurationTicks);
 		strengthLevelsPerPiece = Math.max(1, strengthLevelsPerPiece);
 		strengthMaxLevel = Math.max(1, Math.min(255, strengthMaxLevel));
 	}
