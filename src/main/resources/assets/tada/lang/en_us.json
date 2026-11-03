@@ -2,5 +2,7 @@
   "item.tada.obsidian_helmet": "Obsidian Helmet",
   "item.tada.obsidian_chestplate": "Obsidian Chestplate",
   "item.tada.obsidian_leggings": "Obsidian Leggings",
-  "item.tada.obsidian_boots": "Obsidian Boots"
+  "item.tada.obsidian_boots": "Obsidian Boots",
+  "tada.tooltip.ability": "Ability: %s",
+  "tada.tooltip.ability_stacking": "Ability: %s (stacks per piece)"
 }
