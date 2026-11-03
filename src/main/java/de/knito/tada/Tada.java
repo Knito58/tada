@@ -12,7 +12,9 @@ public class Tada implements ModInitializer {
 
 	@Override
 	public void onInitialize() {
+		TadaConfig.load();
 		TadaItems.register();
+		TadaAbilities.register();
 		CreativeModeTabEvents.modifyOutputEvent(CreativeModeTabs.COMBAT).register(entries -> {
 			for (var item : TadaItems.ALL) {
 				entries.accept(item);

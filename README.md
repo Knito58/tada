@@ -11,3 +11,7 @@ Trim abilities and gold/piglin behaviour follow in step 3.
 
 ## Placeholder textures
 `tools/gen_placeholder_assets.py` regenerates them from the vanilla leather armor layout (needs Pillow and the extracted vanilla leather textures; paths at the top of the script are machine-specific).
+
+## Authors and license
+
+Authors: Claude AI, Konitor. Licensed under the MIT License, see [LICENSE](LICENSE).

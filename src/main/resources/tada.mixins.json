@@ -1,0 +1,11 @@
+{
+	"required": true,
+	"package": "de.knito.tada.mixin",
+	"compatibilityLevel": "JAVA_21",
+	"mixins": [
+		"PiglinAiMixin"
+	],
+	"injectors": {
+		"defaultRequire": 1
+	}
+}
