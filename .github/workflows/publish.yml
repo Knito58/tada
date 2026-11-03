@@ -45,8 +45,10 @@ jobs:
         env:
           CF_TOKEN: ${{ secrets.CURSEFORGE_TOKEN }}
         run: |
+          curl -fsS -H "X-Api-Token: $CF_TOKEN" https://minecraft.curseforge.com/api/game/version-types \
+            | python3 -c "import sys,json; [print('type', t['id'], t['name'], t.get('slug')) for t in json.load(sys.stdin)]" | tail -n 40
           curl -fsS -H "X-Api-Token: $CF_TOKEN" https://minecraft.curseforge.com/api/game/versions \
-            | python3 -c "import sys,json; [print(v['id'], v['gameVersionTypeID'], v['name']) for v in json.load(sys.stdin) if any(k in v['name'] for k in ('26.','Client','Server','Java 2','Fabric'))]"
+            | python3 -c "import sys,json,re; [print('version', v['id'], v['gameVersionTypeID'], v['name']) for v in json.load(sys.stdin) if re.fullmatch(r'26\\.\\d+(\\.\\d+)?(-\\w+)?|Client|Server|Fabric|Java 2\\d', v['name'])]"
       - name: upload to CurseForge
         uses: Kir-Antipov/mc-publish@v3.3.0
         with:
