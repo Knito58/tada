@@ -13,7 +13,8 @@
 	"environment": "*",
 	"mixins": ["tada.mixins.json"],
 	"entrypoints": {
-		"main": ["de.knito.tada.Tada"]
+		"main": ["de.knito.tada.Tada"],
+		"client": ["de.knito.tada.TadaClient"]
 	},
 	"depends": {
 		"fabricloader": ">=0.19.3",

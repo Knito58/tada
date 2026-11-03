@@ -58,6 +58,11 @@ public final class TadaAbilities {
 		}
 	}
 
+	/** The ability a trim pattern grants, or null for patterns without one. */
+	public static Ability forPattern(ResourceKey<TrimPattern> pattern) {
+		return BY_PATTERN.get(pattern);
+	}
+
 	private TadaAbilities() {
 	}
 
