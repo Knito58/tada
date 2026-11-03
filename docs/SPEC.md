@@ -22,8 +22,9 @@ Boots: O_O / G_A
 | Conduit Power I | Tide, Coast |
 | Slow Falling | Vex, Flow, Raiser |
 | Night Vision | Eye, Wayfinder, Ward |
+| Jump Boost II | Spire, Wild |
 | Strength | Bolt, Silence |
-No ability yet: Sentry, Dune, Wild, Spire, Shaper (reserved, open for later).
+No ability yet: Sentry, Dune, Shaper (reserved, open for later).
 Knockback Resistance removed (attribute, not a potion effect).
 
 ## 4. Mechanics
