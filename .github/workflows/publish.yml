@@ -38,6 +38,8 @@ jobs:
         run: chmod +x ./gradlew
       - name: build
         run: ./gradlew build
+      - name: read mod version
+        run: echo "MOD_VERSION=$(grep '^version=' gradle.properties | cut -d= -f2)" >> "$GITHUB_ENV"
       - name: upload to CurseForge
         uses: Kir-Antipov/mc-publish@v3.3.0
         with:
@@ -45,7 +47,8 @@ jobs:
           curseforge-token: ${{ secrets.CURSEFORGE_TOKEN }}
           files: |
             build/libs/!(*-@(dev|sources|javadoc)).jar
-          name: TADA ${{ github.ref_name }}
+          name: TADA ${{ env.MOD_VERSION }}
+          version: ${{ env.MOD_VERSION }}
           version-type: ${{ inputs.release_type }}
           changelog: ${{ inputs.changelog }}
           loaders: fabric
