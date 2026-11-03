@@ -21,10 +21,10 @@ public final class TadaItems {
 	public static final TagKey<Item> REPAIRS_OBSIDIAN_ARMOR =
 		TagKey.create(Registries.ITEM, id("repairs_obsidian_armor"));
 
-	// Deliberately a notch above netherite (37 / 3-6-8-3 / 3.0 / 0.1).
+	// Above netherite (37 / 3-6-8-3 / 3.0 / 0.1). Durability 73 gives helmet 803, boots 949, leggings 1095, chestplate 1168.
 	public static final ArmorMaterial OBSIDIAN = new ArmorMaterial(
-		45,
-		ArmorMaterials.makeDefense(4, 7, 9, 4, 22),
+		73,
+		ArmorMaterials.makeDefense(5, 8, 10, 5, 22),
 		18,
 		SoundEvents.ARMOR_EQUIP_NETHERITE,
 		4.0F,

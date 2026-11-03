@@ -3,7 +3,7 @@
     "humanoid": [
       {
         "dyeable": {
-          "color_when_undyed": -11843758
+          "color_when_undyed": -12172721
         },
         "texture": "tada:obsidian"
       },
@@ -14,7 +14,7 @@
     "humanoid_leggings": [
       {
         "dyeable": {
-          "color_when_undyed": -11843758
+          "color_when_undyed": -12172721
         },
         "texture": "tada:obsidian"
       },
@@ -25,7 +25,7 @@
     "humanoid_baby": [
       {
         "dyeable": {
-          "color_when_undyed": -11843758
+          "color_when_undyed": -12172721
         },
         "texture": "tada:obsidian"
       },

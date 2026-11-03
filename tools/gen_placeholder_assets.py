@@ -14,21 +14,21 @@ def base_overlay(src, ov_src, big):
     base=Image.new('RGBA',im.size,(0,0,0,0)); ov=Image.new('RGBA',im.size,(0,0,0,0))
     for (x,y) in m:
         l=sum(im.getpixel((x,y))[:3])/3
-        v=int(max(0,min(255,150+ (l-128)*0.5 + rnd.randint(-22,22))))
+        v=int(max(185,min(255,222+ (l-128)*0.3 + rnd.randint(-14,14))))
         base.putpixel((x,y),(v,v,v,255))
     if big:
         for (x,y) in m:
             edge=any((x+dx,y+dy) not in m for dx,dy in((1,0),(-1,0),(0,1),(0,-1)))
-            if edge and (x+y)%2==0: ov.putpixel((x,y),GOLD[(x*3+y)%3])
-        for cx in range(3,im.width,8):
-            for cy in range(3,im.height,8):
+            if edge and (x+y)%5==0: ov.putpixel((x,y),GOLD[(x*3+y)%3])
+        for cx in range(3,im.width,16):
+            for cy in range(3,im.height,16):
                 cross=[(cx,cy),(cx+1,cy),(cx-1,cy),(cx,cy+1),(cx,cy-1)]
                 if all(p in m for p in cross):
                     for i,p in enumerate(cross): ov.putpixel(p,AME[0 if i==0 else 1 if i in(1,3) else 2])
     else:
         o=Image.open(ov_src).convert('RGBA')
         for (x,y) in mask(o):
-            if (x+y)%2==0: ov.putpixel((x,y),GOLD[(x+y)%3])
+            if (x+y)%4==0: ov.putpixel((x,y),GOLD[(x+y)%3])
         xs=[p[0] for p in m]; ys=[p[1] for p in m]
         cx=(min(xs)+max(xs))//2; cy=(min(ys)+max(ys))//2+1
         for p,c in(((cx,cy),AME[1]),((cx+1,cy),AME[0]),((cx,cy+1),AME[2])):
@@ -39,7 +39,7 @@ for layer in ['humanoid','humanoid_leggings','humanoid_baby']:
     b,o=base_overlay(V+f'textures/entity/equipment/{layer}/leather.png',V+f'textures/entity/equipment/{layer}/leather_overlay.png',True)
     for n,im in (('obsidian',b),('obsidian_overlay',o)):
         p=A+f'textures/entity/equipment/{layer}/{n}.png'; os.makedirs(os.path.dirname(p),exist_ok=True); im.save(p)
-UNDYED=0xFF4B4752-(1<<32)
+UNDYED=0xFF46424F-(1<<32)
 w(A+'equipment/obsidian.json',{'layers':{l:[{'dyeable':{'color_when_undyed':UNDYED},'texture':'tada:obsidian'},{'texture':'tada:obsidian_overlay'}] for l in ['humanoid','humanoid_leggings','humanoid_baby']}})
 MATS=['quartz','iron','netherite','redstone','copper','gold','emerald','diamond','lapis','amethyst','resin']
 for piece in ['helmet','chestplate','leggings','boots']:
