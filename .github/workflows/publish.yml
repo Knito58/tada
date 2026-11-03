@@ -1,0 +1,59 @@
+# Manual CurseForge release. Never runs on push. Start it from the Actions tab
+# ("Run workflow") after the tested jar from the build workflow is accepted.
+#
+# Needs:
+#   secret   CURSEFORGE_TOKEN        (already set)
+# The CurseForge project ID (not a secret) is set below; an Actions variable
+# CURSEFORGE_PROJECT_ID overrides it.
+
+name: publish
+on:
+  workflow_dispatch:
+    inputs:
+      release_type:
+        description: Release type on CurseForge
+        type: choice
+        options: [alpha, beta, release]
+        default: beta
+      changelog:
+        description: Changelog text for this file (project facts only)
+        type: string
+        required: true
+
+permissions:
+  contents: read
+
+jobs:
+  publish:
+    runs-on: ubuntu-24.04
+    steps:
+      - name: checkout repository
+        uses: actions/checkout@v6
+      - name: setup jdk
+        uses: actions/setup-java@v5
+        with:
+          java-version: '25'
+          distribution: 'microsoft'
+      - name: make gradle wrapper executable
+        run: chmod +x ./gradlew
+      - name: build
+        run: ./gradlew build
+      - name: read mod version
+        run: echo "MOD_VERSION=$(grep '^version=' gradle.properties | cut -d= -f2)" >> "$GITHUB_ENV"
+      - name: upload to CurseForge
+        uses: Kir-Antipov/mc-publish@v3.3.0
+        with:
+          curseforge-id: ${{ vars.CURSEFORGE_PROJECT_ID || '1781660' }}
+          curseforge-token: ${{ secrets.CURSEFORGE_TOKEN }}
+          files: |
+            build/libs/!(*-@(dev|sources|javadoc)).jar
+          name: TADA ${{ env.MOD_VERSION }}
+          version: ${{ env.MOD_VERSION }}
+          version-type: ${{ inputs.release_type }}
+          changelog: ${{ inputs.changelog }}
+          loaders: fabric
+          game-versions: "26.3"
+          java: "25"
+          dependencies: |
+            fabric-api(required)
+            modmenu(optional)

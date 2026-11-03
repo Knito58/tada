@@ -22,16 +22,20 @@ import net.minecraft.world.item.equipment.trim.TrimPatterns;
 /** Trim pattern -> potion effect. One pattern gives exactly one ability. */
 public final class TadaAbilities {
 	public enum Ability {
-		FIRE_RESISTANCE(MobEffects.FIRE_RESISTANCE),
-		CONDUIT_POWER(MobEffects.CONDUIT_POWER),
-		SLOW_FALLING(MobEffects.SLOW_FALLING),
-		NIGHT_VISION(MobEffects.NIGHT_VISION),
-		STRENGTH(MobEffects.STRENGTH);
+		FIRE_RESISTANCE(MobEffects.FIRE_RESISTANCE, 0),
+		CONDUIT_POWER(MobEffects.CONDUIT_POWER, 0),
+		SLOW_FALLING(MobEffects.SLOW_FALLING, 0),
+		NIGHT_VISION(MobEffects.NIGHT_VISION, 0),
+		JUMP_BOOST(MobEffects.JUMP_BOOST, 1),
+		STRENGTH(MobEffects.STRENGTH, 0);
 
 		final Holder<MobEffect> effect;
+		/** Fixed amplifier (0 = level I). Strength ignores it and scales with the piece count. */
+		final int amplifier;
 
-		Ability(Holder<MobEffect> effect) {
+		Ability(Holder<MobEffect> effect, int amplifier) {
 			this.effect = effect;
+			this.amplifier = amplifier;
 		}
 	}
 
@@ -42,8 +46,9 @@ public final class TadaAbilities {
 		map(Ability.CONDUIT_POWER, TrimPatterns.TIDE, TrimPatterns.COAST);
 		map(Ability.SLOW_FALLING, TrimPatterns.VEX, TrimPatterns.FLOW, TrimPatterns.RAISER);
 		map(Ability.NIGHT_VISION, TrimPatterns.EYE, TrimPatterns.WAYFINDER, TrimPatterns.WARD);
+		map(Ability.JUMP_BOOST, TrimPatterns.SPIRE, TrimPatterns.WILD);
 		map(Ability.STRENGTH, TrimPatterns.BOLT, TrimPatterns.SILENCE);
-		// No ability (reserved): SENTRY, DUNE, WILD, SPIRE, SHAPER.
+		// No ability (reserved): SENTRY, DUNE, SHAPER.
 	}
 
 	@SafeVarargs
@@ -89,7 +94,7 @@ public final class TadaAbilities {
 			}
 		}
 		pieces.forEach((ability, count) -> {
-			int amplifier = 0;
+			int amplifier = ability.amplifier;
 			if (ability == Ability.STRENGTH) {
 				int level = Math.min(config.strengthMaxLevel, count * config.strengthLevelsPerPiece);
 				amplifier = level - 1;
