@@ -14,4 +14,4 @@ Trim abilities and gold/piglin behaviour follow in step 3.
 
 ## Authors and license
 
-Authors: Konitor, Claude AI. Licensed under the MIT License, see [LICENSE](LICENSE).
+Authors: Claude AI, Konitor. Licensed under the MIT License, see [LICENSE](LICENSE).
