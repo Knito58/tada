@@ -3,7 +3,8 @@
 #
 # Needs:
 #   secret   CURSEFORGE_TOKEN        (already set)
-#   variable CURSEFORGE_PROJECT_ID   (Settings > Secrets and variables > Actions > Variables)
+# The CurseForge project ID (not a secret) is set below; an Actions variable
+# CURSEFORGE_PROJECT_ID overrides it.
 
 name: publish
 on:
@@ -25,7 +26,6 @@ permissions:
 jobs:
   publish:
     runs-on: ubuntu-24.04
-    if: ${{ vars.CURSEFORGE_PROJECT_ID != '' }}
     steps:
       - name: checkout repository
         uses: actions/checkout@v6
@@ -41,7 +41,7 @@ jobs:
       - name: upload to CurseForge
         uses: Kir-Antipov/mc-publish@v3.3.0
         with:
-          curseforge-id: ${{ vars.CURSEFORGE_PROJECT_ID }}
+          curseforge-id: ${{ vars.CURSEFORGE_PROJECT_ID || '1781660' }}
           curseforge-token: ${{ secrets.CURSEFORGE_TOKEN }}
           files: |
             build/libs/!(*-@(dev|sources|javadoc)).jar
