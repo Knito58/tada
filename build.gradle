@@ -4,6 +4,9 @@ plugins {
 }
 
 repositories {
+	// Optional config screen: compile against Mod Menu and YACL only, never bundled or required at runtime.
+	maven { url = 'https://maven.terraformersmc.com/' }
+	maven { url = 'https://maven.isxander.dev/releases' }
 	// Add repositories to retrieve artifacts from in here.
 	// You should only use this when depending on other mods because
 	// Loom adds the essential maven repositories to download Minecraft and libraries from automatically.
@@ -26,6 +29,10 @@ dependencies {
 
 	// Fabric API. This is technically optional, but you probably want it anyway.
 	implementation "net.fabricmc.fabric-api:fabric-api:${project.fabric_api_version}"
+
+	// Optional: the config screen only loads if both are installed.
+	compileOnly("com.terraformersmc:modmenu:${project.modmenu_version}") { transitive = false }
+	compileOnly("dev.isxander:yet-another-config-lib:${project.yacl_version}") { transitive = false }
 }
 
 processResources {

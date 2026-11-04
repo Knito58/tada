@@ -14,7 +14,8 @@
 	"mixins": ["tada.mixins.json"],
 	"entrypoints": {
 		"main": ["de.knito.tada.Tada"],
-		"client": ["de.knito.tada.TadaClient"]
+		"client": ["de.knito.tada.TadaClient"],
+		"modmenu": ["de.knito.tada.TadaModMenu"]
 	},
 	"depends": {
 		"fabricloader": ">=0.19.3",
@@ -23,6 +24,7 @@
 		"fabric-api": "*"
 	},
 	"suggests": {
-		"modmenu": "*"
+		"modmenu": "*",
+		"yet_another_config_lib_v3": "*"
 	}
 }
