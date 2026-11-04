@@ -17,9 +17,9 @@
   "tada.config.strengthMaxLevel": "Maximum Strength level",
   "tada.config.strengthMaxLevel.desc": "Upper limit for the stacked Strength level. Default 8 (Strength VIII). Maximum 255.",
   "tada.config.onlyTadaArmor": "Only TADA armor",
-  "tada.config.onlyTadaArmor.desc": "No: any trimmed armor (diamond, netherite, modded) gives the trim ability. Yes: only TADA obsidian armor does. Default No.",
+  "tada.config.onlyTadaArmor.desc": "OFF: any trimmed armor (diamond, netherite, modded) gives the trim ability. ON: only TADA obsidian armor does. Default OFF.",
   "tada.config.goldTrimCountsForPiglins": "Gold trim calms piglins",
-  "tada.config.goldTrimCountsForPiglins.desc": "Yes: a piece with a gold trim counts as golden armor, so piglins stay peaceful. Default Yes.",
+  "tada.config.goldTrimCountsForPiglins.desc": "ON: a piece with a gold trim counts as golden armor, so piglins stay peaceful. Default ON.",
   "tada.config.reset": "Reset",
   "tada.config.reset.desc": "Set this value back to its default (%s). Applied when you press Done.",
   "tada.config.lootChanceEndCity": "End city chests",
@@ -53,5 +53,8 @@
   "tada.config.traderSellsTemplates": "Trader sells templates",
   "tada.config.traderSellsTemplates.desc": "ON: the wandering trader can offer a random armor trim template that has an ability, for 24 emeralds and 2 diamonds. Whether he does is decided when he spawns, so it does not affect traders that already exist. Server-side setting.",
   "tada.config.traderSellsArmor": "Trader sells armor",
-  "tada.config.traderSellsArmor.desc": "ON: the wandering trader can offer a finished TADA piece (enchanted, maybe trimmed and dyed) for 64 emeralds and 8 diamonds. Decided when he spawns. Server-side setting."
+  "tada.config.traderSellsArmor.desc": "ON: the wandering trader can offer a finished TADA piece (enchanted, maybe trimmed and dyed) for 64 emeralds and 8 diamonds. Decided when he spawns. Server-side setting.",
+  "tada.config.category.lootChances": "Loot chances (percent per chest or catch)",
+  "tada.config.category.lootPieces": "Found pieces",
+  "tada.config.category.trader": "Wandering trader"
 }
