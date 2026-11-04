@@ -77,8 +77,19 @@ public final class TadaConfig {
 		loaded.sanitize();
 		instance = loaded;
 		// Always rewrite, so new options appear in old files and clamped values are visible.
+		write(loaded);
+	}
+
+	/** Clamps the current values and writes config/tada.json. Used by the config screen. */
+	public static void save() {
+		instance.sanitize();
+		write(instance);
+	}
+
+	private static void write(TadaConfig config) {
+		Path path = FabricLoader.getInstance().getConfigDir().resolve("tada.json");
 		try (Writer writer = Files.newBufferedWriter(path)) {
-			GSON.toJson(loaded, writer);
+			GSON.toJson(config, writer);
 		} catch (IOException e) {
 			Tada.LOGGER.warn("Could not write {}", path, e);
 		}
