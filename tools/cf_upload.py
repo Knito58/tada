@@ -54,13 +54,15 @@ meta = {
     ]},
 }
 print("uploading", jars[0], "game version ids", ids)
-# curl builds the multipart body; --fail-with-body makes HTTP errors fail the step
-# and still prints the response body, so the CurseForge error message is visible.
+# curl builds the multipart body. --form-string sends the metadata verbatim: with -F, curl
+# parses ';' inside the value as a parameter separator, which cut the JSON at the first
+# semicolon in the changelog ("Invalid JSON"). --fail-with-body makes HTTP errors fail the
+# step and still prints the response body, so the CurseForge error message is visible.
 subprocess.run(
     [
         "curl", "-sS", "--fail-with-body", "--max-time", "300",
         "-H", f"X-Api-Token: {os.environ['CF_TOKEN']}",
-        "-F", f"metadata={json.dumps(meta)}",
+        "--form-string", f"metadata={json.dumps(meta)}",
         "-F", f"file=@{jars[0]}",
         f"{API}/projects/{os.environ['CF_PROJECT_ID']}/upload-file",
     ],
