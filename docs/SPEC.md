@@ -44,9 +44,14 @@ Knockback Resistance removed (attribute, not a potion effect).
 - Mod id, name and license to be set when the repo exists.
 
 ## 7. Config (config/tada.json)
+(See section 8 for the loot, trader and hint options.)
 checkIntervalTicks 100, effectDurationTicks 320 (raised on load to at least interval + 201), strengthLevelsPerPiece 2, strengthMaxLevel 8, onlyTadaArmor false (any trimmed armor gives abilities), goldTrimCountsForPiglins true.
 
-## 8. Steps
+## 8. Loot and wandering trader (step 5)
+- Loot: `LootTableEvents.MODIFY` adds one extra pool to chosen vanilla tables. The pool is guarded by the condition `tada:chance` (reads the config at generation time) and uses the function `tada:random_armor`: random TADA piece, enchanted with 15-35 levels from the random-loot enchantment pool, trimmed with chance 0.6 (random pattern that has an ability, random material), dyed with chance 0.5 (one or two random dyes). Tables: end_city_treasure 12%, bastion_treasure 10%, buried_treasure 8%, nether_bridge 6%, ancient_city 6%, woodland_mansion 6%, trial_chambers/reward 5%, reward_ominous 12%, shipwreck_treasure 4%, fishing treasure 3%.
+- Trader: in 26.3 trades are data driven. Three trades (`tada:wandering_trader/template_1`, `template_2`, `armor`) are added to the tag `minecraft:wandering_trader/uncommon`; the trade set picks 2 of the pool per visit. `merchant_predicate` `tada:chance` switches them off via the config; `tada:random_template` picks a template with an ability.
+
+## 9. Steps
 1. This spec (done once approved).
 2. Fabric project, armor, recipes, textures, dyeing.
 3. Trim abilities and gold/piglin behaviour.

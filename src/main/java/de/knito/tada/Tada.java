@@ -17,6 +17,7 @@ public class Tada implements ModInitializer {
 		TadaConfig.load();
 		TadaItems.register();
 		TadaAbilities.register();
+		TadaLoot.register();
 		// Tell each joining client whether abilities need TADA armor, so tooltips match the server.
 		PayloadTypeRegistry.clientboundPlay().register(ConfigSyncPayload.TYPE, ConfigSyncPayload.CODEC);
 		ServerPlayConnectionEvents.JOIN.register((handler, sender, server) ->

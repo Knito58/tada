@@ -63,6 +63,11 @@ public final class TadaAbilities {
 		return BY_PATTERN.get(pattern);
 	}
 
+	/** All patterns that have an ability, in a fixed order. */
+	public static java.util.List<ResourceKey<TrimPattern>> patterns() {
+		return BY_PATTERN.keySet().stream().sorted(java.util.Comparator.comparing(k -> k.identifier().toString())).toList();
+	}
+
 	private TadaAbilities() {
 	}
 
