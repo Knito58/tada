@@ -3,9 +3,13 @@ package de.knito.tada;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.function.BooleanSupplier;
+import java.util.function.DoubleConsumer;
+import java.util.function.DoubleSupplier;
 import java.util.function.Consumer;
 import java.util.function.IntConsumer;
 import java.util.function.IntSupplier;
+import net.minecraft.client.gui.GuiGraphicsExtractor;
+import net.minecraft.client.gui.components.AbstractWidget;
 import net.minecraft.client.gui.components.Button;
 import net.minecraft.client.gui.components.CycleButton;
 import net.minecraft.client.gui.components.EditBox;
@@ -32,7 +36,13 @@ public final class TadaConfigScreen extends Screen {
 	private final Screen parent;
 	/** Applies the typed values to the config; one entry per row. */
 	private final List<Runnable> appliers = new ArrayList<>();
+	/** A widget in the scrolling list: y is its position in content space, before scrolling. */
+	private record Scrolled(AbstractWidget widget, int y) {
+	}
+
+	private final List<Scrolled> scrolled = new ArrayList<>();
 	private int rowY;
+	private int scroll;
 
 	public TadaConfigScreen(Screen parent) {
 		super(Component.translatable("tada.config.title"));
@@ -46,12 +56,65 @@ public final class TadaConfigScreen extends Screen {
 	@Override
 	protected void init() {
 		appliers.clear();
+		scrolled.clear();
 		addRenderableWidget(centered(title, 12));
-		rowY = 36;
-		TadaConfig c = TadaConfig.get();
-		addRows(c);
+		rowY = 0;
+		addRows(TadaConfig.get());
 		addRenderableWidget(Button.builder(CommonComponents.GUI_DONE, b -> onClose())
-			.bounds(width / 2 - 100, Math.min(height - 28, rowY + 10), 200, 20).build());
+			.bounds(width / 2 - 100, height - 28, 200, 20).build());
+		scroll = Math.max(0, Math.min(scroll, maxScroll()));
+		applyScroll();
+	}
+
+	private int viewTop() {
+		return 30;
+	}
+
+	private int viewBottom() {
+		return height - 34;
+	}
+
+	private int maxScroll() {
+		return Math.max(0, rowY - (viewBottom() - viewTop()));
+	}
+
+	/** Moves every list widget to its scrolled position and hides those outside the visible area. */
+	private void applyScroll() {
+		for (Scrolled s : scrolled) {
+			int y = viewTop() + s.y() - scroll;
+			s.widget().setY(y);
+			s.widget().visible = y >= viewTop() - 2 && y + s.widget().getHeight() <= viewBottom() + 2;
+		}
+	}
+
+	private <T extends AbstractWidget> T addScrolled(T widget) {
+		scrolled.add(new Scrolled(widget, widget.getY()));
+		return addRenderableWidget(widget);
+	}
+
+	@Override
+	public boolean mouseScrolled(double mouseX, double mouseY, double scrollX, double scrollY) {
+		int old = scroll;
+		scroll = Math.max(0, Math.min(maxScroll(), scroll - (int) Math.signum(scrollY) * ROW_HEIGHT));
+		if (scroll != old) {
+			applyScroll();
+			return true;
+		}
+		return super.mouseScrolled(mouseX, mouseY, scrollX, scrollY);
+	}
+
+	@Override
+	public void extractRenderState(GuiGraphicsExtractor graphics, int mouseX, int mouseY, float partialTick) {
+		super.extractRenderState(graphics, mouseX, mouseY, partialTick);
+		int max = maxScroll();
+		if (max > 0) {
+			// Thin scroll bar at the right edge.
+			int track = viewBottom() - viewTop();
+			int bar = Math.max(20, track * track / (track + max));
+			int y = viewTop() + (track - bar) * scroll / max;
+			graphics.fill(width - 6, viewTop(), width - 2, viewBottom(), 0x80000000);
+			graphics.fill(width - 6, y, width - 2, y + bar, 0xFFA0A0A0);
+		}
 	}
 
 	private void addRows(TadaConfig c) {
@@ -63,10 +126,29 @@ public final class TadaConfigScreen extends Screen {
 		flag("onlyTadaArmor", DEFAULTS.onlyTadaArmor, () -> c.onlyTadaArmor, v -> c.onlyTadaArmor = v);
 		section("tada.config.category.piglins");
 		flag("goldTrimCountsForPiglins", DEFAULTS.goldTrimCountsForPiglins, () -> c.goldTrimCountsForPiglins, v -> c.goldTrimCountsForPiglins = v);
+		section("tada.config.category.lootChances");
+		percent("lootChanceEndCity", DEFAULTS.lootChanceEndCity, () -> c.lootChanceEndCity, v -> c.lootChanceEndCity = v);
+		percent("lootChanceNetherFortress", DEFAULTS.lootChanceNetherFortress, () -> c.lootChanceNetherFortress, v -> c.lootChanceNetherFortress = v);
+		percent("lootChanceBastion", DEFAULTS.lootChanceBastion, () -> c.lootChanceBastion, v -> c.lootChanceBastion = v);
+		percent("lootChanceAncientCity", DEFAULTS.lootChanceAncientCity, () -> c.lootChanceAncientCity, v -> c.lootChanceAncientCity = v);
+		percent("lootChanceWoodlandMansion", DEFAULTS.lootChanceWoodlandMansion, () -> c.lootChanceWoodlandMansion, v -> c.lootChanceWoodlandMansion = v);
+		percent("lootChanceTrialVault", DEFAULTS.lootChanceTrialVault, () -> c.lootChanceTrialVault, v -> c.lootChanceTrialVault = v);
+		percent("lootChanceOminousVault", DEFAULTS.lootChanceOminousVault, () -> c.lootChanceOminousVault, v -> c.lootChanceOminousVault = v);
+		percent("lootChanceBuriedTreasure", DEFAULTS.lootChanceBuriedTreasure, () -> c.lootChanceBuriedTreasure, v -> c.lootChanceBuriedTreasure = v);
+		percent("lootChanceShipwreck", DEFAULTS.lootChanceShipwreck, () -> c.lootChanceShipwreck, v -> c.lootChanceShipwreck = v);
+		percent("lootChanceFishing", DEFAULTS.lootChanceFishing, () -> c.lootChanceFishing, v -> c.lootChanceFishing = v);
+		section("tada.config.category.lootPieces");
+		percent("lootTrimChance", DEFAULTS.lootTrimChance, () -> c.lootTrimChance, v -> c.lootTrimChance = v);
+		percent("lootDyeChance", DEFAULTS.lootDyeChance, () -> c.lootDyeChance, v -> c.lootDyeChance = v);
+		number("lootEnchantLevelsMin", DEFAULTS.lootEnchantLevelsMin, 1, 60, () -> c.lootEnchantLevelsMin, v -> c.lootEnchantLevelsMin = v);
+		number("lootEnchantLevelsMax", DEFAULTS.lootEnchantLevelsMax, 1, 60, () -> c.lootEnchantLevelsMax, v -> c.lootEnchantLevelsMax = v);
+		section("tada.config.category.trader");
+		flag("traderSellsTemplates", DEFAULTS.traderSellsTemplates, () -> c.traderSellsTemplates, v -> c.traderSellsTemplates = v);
+		flag("traderSellsArmor", DEFAULTS.traderSellsArmor, () -> c.traderSellsArmor, v -> c.traderSellsArmor = v);
 	}
 
 	private void section(String key) {
-		addRenderableWidget(centered(Component.translatable(key), rowY + 4));
+		addScrolled(centered(Component.translatable(key), rowY + 4));
 		rowY += 18;
 	}
 
@@ -84,7 +166,7 @@ public final class TadaConfigScreen extends Screen {
 		Component text = Component.translatable("tada.config." + key);
 		StringWidget label = new StringWidget(left(), rowY + 5, font.width(text), 12, text, font);
 		label.setTooltip(tip);
-		return addRenderableWidget(label);
+		return addScrolled(label);
 	}
 
 	private void number(String key, int def, int min, int max, IntSupplier get, IntConsumer set) {
@@ -94,8 +176,8 @@ public final class TadaConfigScreen extends Screen {
 		box.setMaxLength(6);
 		box.setValue(Integer.toString(get.getAsInt()));
 		box.setTooltip(tip);
-		addRenderableWidget(box);
-		addReset(key, def, () -> box.setValue(Integer.toString(def)));
+		addScrolled(box);
+		addReset(Integer.toString(def), () -> box.setValue(Integer.toString(def)));
 		appliers.add(() -> {
 			try {
 				set.accept(Math.max(min, Math.min(max, Integer.parseInt(box.getValue().trim()))));
@@ -106,21 +188,46 @@ public final class TadaConfigScreen extends Screen {
 		rowY += ROW_HEIGHT;
 	}
 
+	/** A chance stored as 0..1 in the config but typed as a percentage (0 to 100). */
+	private void percent(String key, double def, DoubleSupplier get, DoubleConsumer set) {
+		Tooltip tip = Tooltip.create(Component.translatable("tada.config." + key + ".desc"));
+		label(key, tip);
+		EditBox box = new EditBox(font, left() + LABEL_WIDTH + GAP, rowY, FIELD_WIDTH, 20, Component.translatable("tada.config." + key));
+		box.setMaxLength(7);
+		box.setValue(formatPercent(get.getAsDouble()));
+		box.setTooltip(tip);
+		addScrolled(box);
+		addReset(formatPercent(def) + " %", () -> box.setValue(formatPercent(def)));
+		appliers.add(() -> {
+			try {
+				double percent = Double.parseDouble(box.getValue().trim().replace(',', '.').replace("%", ""));
+				set.accept(Math.max(0, Math.min(100, percent)) / 100.0);
+			} catch (NumberFormatException e) {
+				// Unreadable text: keep the previous value.
+			}
+		});
+		rowY += ROW_HEIGHT;
+	}
+
+	private static String formatPercent(double chance) {
+		double percent = Math.round(chance * 1000.0) / 10.0;
+		return percent == Math.rint(percent) ? Long.toString((long) percent) : Double.toString(percent);
+	}
+
 	private void flag(String key, boolean def, BooleanSupplier get, Consumer<Boolean> set) {
 		Tooltip tip = Tooltip.create(Component.translatable("tada.config." + key + ".desc"));
 		label(key, tip);
 		CycleButton<Boolean> button = CycleButton.booleanBuilder(CommonComponents.OPTION_ON, CommonComponents.OPTION_OFF, get.getAsBoolean())
 			.withTooltip(v -> tip)
 			.create(left() + LABEL_WIDTH + GAP, rowY, FIELD_WIDTH, 20, Component.translatable("tada.config." + key));
-		addRenderableWidget(button);
-		addReset(key, def, () -> button.setValue(def));
+		addScrolled(button);
+		addReset(def ? "ON" : "OFF", () -> button.setValue(def));
 		appliers.add(() -> set.accept(button.getValue()));
 		rowY += ROW_HEIGHT;
 	}
 
-	private void addReset(String key, Object def, Runnable action) {
-		String shown = def instanceof Boolean b ? (b ? "Yes" : "No") : String.valueOf(def);
-		addRenderableWidget(Button.builder(Component.translatable("tada.config.reset"), b -> action.run())
+	private void addReset(String shown, Runnable action) {
+		addScrolled(Button.builder(Component.translatable("tada.config.reset"), b -> action.run())
 			.bounds(left() + LABEL_WIDTH + FIELD_WIDTH + 2 * GAP, rowY, RESET_WIDTH, 20)
 			.tooltip(Tooltip.create(Component.translatable("tada.config.reset.desc", shown)))
 			.build());
