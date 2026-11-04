@@ -15,6 +15,8 @@ public class Tada implements ModInitializer {
 		TadaConfig.load();
 		TadaItems.register();
 		TadaAbilities.register();
+		TadaLoot.register();
+		TadaNetworking.register();
 		CreativeModeTabEvents.modifyOutputEvent(CreativeModeTabs.COMBAT).register(entries -> {
 			for (var item : TadaItems.ALL) {
 				entries.accept(item);

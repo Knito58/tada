@@ -1,0 +1,9 @@
+{
+	"wants": { "id": "minecraft:emerald", "count": 24 },
+	"additional_wants": { "id": "minecraft:diamond", "count": 2 },
+	"gives": { "id": "minecraft:rib_armor_trim_smithing_template" },
+	"merchant_predicate": { "type": "tada:chance", "source": "trader_templates" },
+	"given_item_modifier": [ { "type": "tada:random_template" } ],
+	"max_uses": 1,
+	"reputation_discount": 0.05
+}
