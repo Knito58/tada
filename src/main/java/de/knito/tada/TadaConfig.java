@@ -32,9 +32,6 @@ public final class TadaConfig {
 	/** If true, a piece with a gold trim material counts as golden armor for piglins. */
 	public boolean goldTrimCountsForPiglins = true;
 
-	/** Client side: show "Ability: X" on trimmed armor and on smithing templates. */
-	public boolean showAbilityHints = true;
-
 	// Loot: chance that one finished TADA piece (enchanted, usually trimmed and dyed) is added to the container or catch.
 	public double lootChanceEndCity = 0.12;
 	public double lootChanceNetherFortress = 0.06;
@@ -87,17 +84,7 @@ public final class TadaConfig {
 		}
 	}
 
-	public static void save() {
-		Path path = FabricLoader.getInstance().getConfigDir().resolve("tada.json");
-		instance.sanitize();
-		try (Writer writer = Files.newBufferedWriter(path)) {
-			GSON.toJson(instance, writer);
-		} catch (IOException e) {
-			Tada.LOGGER.warn("Could not write {}", path, e);
-		}
-	}
-
-	public void sanitize() {
+	private void sanitize() {
 		checkIntervalTicks = Math.max(1, checkIntervalTicks);
 		// Remaining time must never fall to 200 ticks, or the HUD icon blinks and Night Vision flickers.
 		effectDurationTicks = Math.max(checkIntervalTicks + 201, effectDurationTicks);
