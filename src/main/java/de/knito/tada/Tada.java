@@ -1,6 +1,8 @@
 package de.knito.tada;
 
 import net.fabricmc.api.ModInitializer;
+import net.fabricmc.fabric.api.networking.v1.PayloadTypeRegistry;
+import net.fabricmc.fabric.api.networking.v1.ServerPlayConnectionEvents;
 import net.fabricmc.fabric.api.creativetab.v1.CreativeModeTabEvents;
 import net.minecraft.world.item.CreativeModeTabs;
 import org.slf4j.Logger;
@@ -16,6 +18,10 @@ public class Tada implements ModInitializer {
 		TadaItems.register();
 		TadaAbilities.register();
 		TadaLoot.register();
+		// Tell each joining client whether abilities need TADA armor, so tooltips match the server.
+		PayloadTypeRegistry.clientboundPlay().register(ConfigSyncPayload.TYPE, ConfigSyncPayload.CODEC);
+		ServerPlayConnectionEvents.JOIN.register((handler, sender, server) ->
+			sender.sendPacket(new ConfigSyncPayload(TadaConfig.get().onlyTadaArmor)));
 		CreativeModeTabEvents.modifyOutputEvent(CreativeModeTabs.COMBAT).register(entries -> {
 			for (var item : TadaItems.ALL) {
 				entries.accept(item);
