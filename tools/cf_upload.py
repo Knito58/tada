@@ -54,10 +54,11 @@ meta = {
     ]},
 }
 print("uploading", jars[0], "game version ids", ids)
-# curl builds the multipart body; -f makes HTTP errors fail the step, --show-error keeps the message.
+# curl builds the multipart body; --fail-with-body makes HTTP errors fail the step
+# and still prints the response body, so the CurseForge error message is visible.
 subprocess.run(
     [
-        "curl", "-fsS", "--max-time", "300",
+        "curl", "-sS", "--fail-with-body", "--max-time", "300",
         "-H", f"X-Api-Token: {os.environ['CF_TOKEN']}",
         "-F", f"metadata={json.dumps(meta)}",
         "-F", f"file=@{jars[0]}",
