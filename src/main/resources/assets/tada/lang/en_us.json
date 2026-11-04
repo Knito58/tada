@@ -19,5 +19,7 @@
   "tada.config.onlyTadaArmor": "Only TADA armor",
   "tada.config.onlyTadaArmor.desc": "No: any trimmed armor (diamond, netherite, modded) gives the trim ability. Yes: only TADA obsidian armor does. Default No.",
   "tada.config.goldTrimCountsForPiglins": "Gold trim calms piglins",
-  "tada.config.goldTrimCountsForPiglins.desc": "Yes: a piece with a gold trim counts as golden armor, so piglins stay peaceful. Default Yes."
+  "tada.config.goldTrimCountsForPiglins.desc": "Yes: a piece with a gold trim counts as golden armor, so piglins stay peaceful. Default Yes.",
+  "tada.config.reset": "Reset",
+  "tada.config.reset.desc": "Set this value back to its default (%s). Applied when you press Done."
 }
