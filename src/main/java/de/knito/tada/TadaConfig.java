@@ -27,7 +27,12 @@ public final class TadaConfig {
 	public int strengthLevelsPerPiece = 2;
 	/** Highest Strength level that can be reached. 8 = Strength VIII (4 pieces at 2 levels). */
 	public int strengthMaxLevel = 8;
-	/** If true, only TADA armor gives trim abilities; if false, any trimmed armor does. */
+	/**
+	 * If true, only TADA armor gives trim abilities; if false, any trimmed armor does.
+	 * The "Ability: X" tooltip on trimmed armor follows this value, taken from the server on join (also in
+	 * multiplayer). It is computed when the tooltip is shown, so it also appears on pieces trimmed earlier.
+	 * On a server without TADA no armor hint is shown.
+	 */
 	public boolean onlyTadaArmor = false;
 	/** If true, a piece with a gold trim material counts as golden armor for piglins. */
 	public boolean goldTrimCountsForPiglins = true;
