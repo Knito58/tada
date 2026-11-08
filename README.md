@@ -3,7 +3,7 @@
 Fabric mod for Minecraft 26.3 (Java 25). See [docs/SPEC.md](docs/SPEC.md).
 
 ## Status
-Step 2 (base): obsidian armor (4 pieces), crafting recipes, dyeing, trimming, placeholder textures.
+Step 2 (base): Tadarite armor (4 pieces, crafted from obsidian), crafting recipes, dyeing, trimming, placeholder textures.
 Trim abilities and gold/piglin behaviour follow in step 3.
 
 ## Loot and wandering trader

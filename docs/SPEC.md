@@ -4,7 +4,7 @@ Target: Minecraft 26.3, Fabric Loader, Java 25. Publishing: CurseForge only (CUR
 Replaces: Obsidian Armor, Everlasting Abilities, Distracting Trims.
 
 ## 1. Armor
-- Four pieces (helmet, chestplate, leggings, boots) made of obsidian, stats above netherite.
+- Four pieces (helmet, chestplate, leggings, boots) of "Tadarite" (display name only; ids stay `obsidian_*`), crafted from obsidian, stats above netherite.
 - Look: dark grey base with amethyst and gold decorations on each piece. Textures drawn by Claude as a first draft.
 - Dyeable via vanilla dyed_color component. If this proves impossible, the title becomes "Trimmed Abilities Distracting Armor".
 - Trimmable with all vanilla smithing templates. Amplifier and levels are configurable.
