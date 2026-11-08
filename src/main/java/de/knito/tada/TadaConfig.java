@@ -49,6 +49,8 @@ public final class TadaConfig {
 	public double lootChanceShipwreck = 0.04;
 	/** Per treasure catch (a treasure catch itself is rare). */
 	public double lootChanceFishing = 0.03;
+	/** Common chests: dungeons, mineshafts, temples, strongholds, outposts, ruined portals, igloos, big ruins, some village chests. */
+	public double lootChanceOverworld = 0.04;
 	/** Chance that a found piece carries a trim. */
 	public double lootTrimChance = 0.6;
 	/** Chance that a found piece is dyed. */
@@ -57,10 +59,10 @@ public final class TadaConfig {
 	public int lootEnchantLevelsMin = 15;
 	public int lootEnchantLevelsMax = 35;
 
-	/** Wandering trader: can offer a random armor trim template with an ability. */
-	public boolean traderSellsTemplates = true;
-	/** Wandering trader: can offer a finished (enchanted, trimmed, dyed) TADA piece. */
-	public boolean traderSellsArmor = true;
+	/** Wandering trader: chance per trader that he offers a random armor trim template with an ability. 0 = never. */
+	public double traderTemplateChance = 0.6;
+	/** Wandering trader: chance per trader that he offers a finished (enchanted, trimmed, dyed) TADA piece. 0 = never. */
+	public double traderArmorChance = 0.3;
 
 	public static TadaConfig get() {
 		return instance;
@@ -116,6 +118,9 @@ public final class TadaConfig {
 		lootChanceBuriedTreasure = chance(lootChanceBuriedTreasure);
 		lootChanceShipwreck = chance(lootChanceShipwreck);
 		lootChanceFishing = chance(lootChanceFishing);
+		lootChanceOverworld = chance(lootChanceOverworld);
+		traderTemplateChance = chance(traderTemplateChance);
+		traderArmorChance = chance(traderArmorChance);
 		lootTrimChance = chance(lootTrimChance);
 		lootDyeChance = chance(lootDyeChance);
 		lootEnchantLevelsMin = Math.max(1, Math.min(60, lootEnchantLevelsMin));

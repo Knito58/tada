@@ -43,12 +43,12 @@ public final class TadaAbilities {
 
 	static {
 		map(Ability.FIRE_RESISTANCE, TrimPatterns.RIB, TrimPatterns.SNOUT, TrimPatterns.HOST);
-		map(Ability.CONDUIT_POWER, TrimPatterns.TIDE, TrimPatterns.COAST);
+		map(Ability.CONDUIT_POWER, TrimPatterns.TIDE, TrimPatterns.COAST, TrimPatterns.SENTRY);
 		map(Ability.SLOW_FALLING, TrimPatterns.VEX, TrimPatterns.FLOW, TrimPatterns.RAISER);
 		map(Ability.NIGHT_VISION, TrimPatterns.EYE, TrimPatterns.WAYFINDER, TrimPatterns.WARD);
 		map(Ability.JUMP_BOOST, TrimPatterns.SPIRE, TrimPatterns.WILD);
 		map(Ability.STRENGTH, TrimPatterns.BOLT, TrimPatterns.SILENCE);
-		// No ability (reserved): SENTRY, DUNE, SHAPER.
+		// No ability (reserved): DUNE, SHAPER.
 	}
 
 	@SafeVarargs

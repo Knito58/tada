@@ -1,0 +1,5 @@
+{
+	"amount": 1,
+	"random_sequence": "tada:trade_set/wandering_trader/armor",
+	"trades": [ "tada:wandering_trader/armor" ]
+}

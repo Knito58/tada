@@ -27,25 +27,27 @@ public final class TadaLoot {
 		OMINOUS_VAULT("ominous_vault", c -> c.lootChanceOminousVault, "chests/trial_chambers/reward_ominous"),
 		BURIED_TREASURE("buried_treasure", c -> c.lootChanceBuriedTreasure, "chests/buried_treasure"),
 		SHIPWRECK("shipwreck", c -> c.lootChanceShipwreck, "chests/shipwreck_treasure"),
+		OVERWORLD("overworld", c -> c.lootChanceOverworld,
+			"chests/simple_dungeon", "chests/abandoned_mineshaft", "chests/desert_pyramid", "chests/jungle_temple",
+			"chests/stronghold_corridor", "chests/stronghold_crossing", "chests/stronghold_library",
+			"chests/pillager_outpost", "chests/ruined_portal", "chests/igloo_chest", "chests/underwater_ruin_big",
+			"chests/village/village_armorer", "chests/village/village_weaponsmith", "chests/village/village_toolsmith",
+			"chests/bastion_other", "chests/bastion_bridge", "chests/bastion_hoglin_stable"),
 		FISHING("fishing", c -> c.lootChanceFishing, "gameplay/fishing/treasure"),
 		/** Wandering trader trades (data pack JSON). No loot table. */
-		TRADER_ARMOR("trader_armor", c -> c.traderSellsArmor ? 1.0 : 0.0),
-		TRADER_TEMPLATES("trader_templates", c -> c.traderSellsTemplates ? 1.0 : 0.0);
+		TRADER_ARMOR("trader_armor", c -> c.traderArmorChance),
+		TRADER_TEMPLATES("trader_templates", c -> c.traderTemplateChance);
 
 		public static final Codec<Source> CODEC = StringRepresentable.fromEnum(Source::values);
 
 		private final String name;
 		private final ToDoubleFunction<TadaConfig> chance;
-		private final String table;
+		private final String[] tables;
 
-		Source(String name, ToDoubleFunction<TadaConfig> chance, String table) {
+		Source(String name, ToDoubleFunction<TadaConfig> chance, String... tables) {
 			this.name = name;
 			this.chance = chance;
-			this.table = table;
-		}
-
-		Source(String name, ToDoubleFunction<TadaConfig> chance) {
-			this(name, chance, null);
+			this.tables = tables;
 		}
 
 		public double chance(TadaConfig config) {
@@ -72,8 +74,8 @@ public final class TadaLoot {
 
 		Map<Identifier, Source> byTable = new HashMap<>();
 		for (Source source : Source.values()) {
-			if (source.table != null) {
-				byTable.put(Identifier.withDefaultNamespace(source.table), source);
+			for (String table : source.tables) {
+				byTable.put(Identifier.withDefaultNamespace(table), source);
 			}
 		}
 		LootTableEvents.MODIFY.register((key, table, lootSource, registries) -> {
