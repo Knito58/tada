@@ -4,7 +4,8 @@
 	"compatibilityLevel": "JAVA_21",
 	"mixins": [
 		"PiglinAiMixin",
-		"WanderingTraderMixin"
+		"WanderingTraderMixin",
+		"AbstractVillagerInvoker"
 	],
 	"injectors": {
 		"defaultRequire": 1
