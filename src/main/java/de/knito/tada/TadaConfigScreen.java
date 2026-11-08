@@ -136,6 +136,7 @@ public final class TadaConfigScreen extends Screen {
 		percent("lootChanceOminousVault", DEFAULTS.lootChanceOminousVault, () -> c.lootChanceOminousVault, v -> c.lootChanceOminousVault = v);
 		percent("lootChanceBuriedTreasure", DEFAULTS.lootChanceBuriedTreasure, () -> c.lootChanceBuriedTreasure, v -> c.lootChanceBuriedTreasure = v);
 		percent("lootChanceShipwreck", DEFAULTS.lootChanceShipwreck, () -> c.lootChanceShipwreck, v -> c.lootChanceShipwreck = v);
+		percent("lootChanceOverworld", DEFAULTS.lootChanceOverworld, () -> c.lootChanceOverworld, v -> c.lootChanceOverworld = v);
 		percent("lootChanceFishing", DEFAULTS.lootChanceFishing, () -> c.lootChanceFishing, v -> c.lootChanceFishing = v);
 		section("tada.config.category.lootPieces");
 		percent("lootTrimChance", DEFAULTS.lootTrimChance, () -> c.lootTrimChance, v -> c.lootTrimChance = v);
@@ -143,8 +144,8 @@ public final class TadaConfigScreen extends Screen {
 		number("lootEnchantLevelsMin", DEFAULTS.lootEnchantLevelsMin, 1, 60, () -> c.lootEnchantLevelsMin, v -> c.lootEnchantLevelsMin = v);
 		number("lootEnchantLevelsMax", DEFAULTS.lootEnchantLevelsMax, 1, 60, () -> c.lootEnchantLevelsMax, v -> c.lootEnchantLevelsMax = v);
 		section("tada.config.category.trader");
-		flag("traderSellsTemplates", DEFAULTS.traderSellsTemplates, () -> c.traderSellsTemplates, v -> c.traderSellsTemplates = v);
-		flag("traderSellsArmor", DEFAULTS.traderSellsArmor, () -> c.traderSellsArmor, v -> c.traderSellsArmor = v);
+		percent("traderTemplateChance", DEFAULTS.traderTemplateChance, () -> c.traderTemplateChance, v -> c.traderTemplateChance = v);
+		percent("traderArmorChance", DEFAULTS.traderArmorChance, () -> c.traderArmorChance, v -> c.traderArmorChance = v);
 	}
 
 	private void section(String key) {

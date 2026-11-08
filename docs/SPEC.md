@@ -4,7 +4,7 @@ Target: Minecraft 26.3, Fabric Loader, Java 25. Publishing: CurseForge only (CUR
 Replaces: Obsidian Armor, Everlasting Abilities, Distracting Trims.
 
 ## 1. Armor
-- Four pieces (helmet, chestplate, leggings, boots) made of obsidian, stats above netherite.
+- Four pieces (helmet, chestplate, leggings, boots) of "Tadarite" (display name only; ids stay `obsidian_*`), crafted from obsidian, stats above netherite.
 - Look: dark grey base with amethyst and gold decorations on each piece. Textures drawn by Claude as a first draft.
 - Dyeable via vanilla dyed_color component. If this proves impossible, the title becomes "Trimmed Abilities Distracting Armor".
 - Trimmable with all vanilla smithing templates. Amplifier and levels are configurable.
@@ -19,12 +19,12 @@ Boots: O_O / G_A
 | Ability | Templates |
 |---|---|
 | Fire Resistance | Rib, Snout, Host |
-| Conduit Power I | Tide, Coast |
+| Conduit Power I | Tide, Coast, Sentry |
 | Slow Falling | Vex, Flow, Raiser |
 | Night Vision | Eye, Wayfinder, Ward |
 | Jump Boost II | Spire, Wild |
 | Strength | Bolt, Silence |
-No ability yet: Sentry, Dune, Shaper (reserved, open for later).
+No ability yet: Dune, Shaper (reserved, open for later).
 Knockback Resistance removed (attribute, not a potion effect).
 
 ## 4. Mechanics
@@ -48,8 +48,8 @@ Knockback Resistance removed (attribute, not a potion effect).
 checkIntervalTicks 100, effectDurationTicks 320 (raised on load to at least interval + 201), strengthLevelsPerPiece 2, strengthMaxLevel 8, onlyTadaArmor false (any trimmed armor gives abilities), goldTrimCountsForPiglins true.
 
 ## 8. Loot and wandering trader (step 5)
-- Loot: `LootTableEvents.MODIFY` adds one extra pool to chosen vanilla tables. The pool is guarded by the condition `tada:chance` (reads the config at generation time) and uses the function `tada:random_armor`: random TADA piece, enchanted with 15-35 levels from the random-loot enchantment pool, trimmed with chance 0.6 (random pattern that has an ability, random material), dyed with chance 0.5 (one or two random dyes). Tables: end_city_treasure 12%, bastion_treasure 10%, buried_treasure 8%, nether_bridge 6%, ancient_city 6%, woodland_mansion 6%, trial_chambers/reward 5%, reward_ominous 12%, shipwreck_treasure 4%, fishing treasure 3%.
-- Trader: in 26.3 trades are data driven. Three trades (`tada:wandering_trader/template_1`, `template_2`, `armor`) are added to the tag `minecraft:wandering_trader/uncommon`; the trade set picks 2 of the pool per visit. `merchant_predicate` `tada:chance` switches them off via the config; `tada:random_template` picks a template with an ability.
+- Loot: `LootTableEvents.MODIFY` adds one extra pool to chosen vanilla tables. The pool is guarded by the condition `tada:chance` (reads the config at generation time) and uses the function `tada:random_armor`: random TADA piece, enchanted with 15-35 levels from the random-loot enchantment pool, trimmed with chance 0.6 (random pattern that has an ability, random material), dyed with chance 0.5 (one or two random dyes). Tables: end_city_treasure 12%, bastion_treasure 10%, buried_treasure 8%, nether_bridge 6%, ancient_city 6%, woodland_mansion 6%, trial_chambers/reward 5%, reward_ominous 12%, shipwreck_treasure 4%, fishing treasure 3%, plus one shared `overworld` group at 4% per chest: simple_dungeon, abandoned_mineshaft, desert_pyramid, jungle_temple, stronghold_*, pillager_outpost, ruined_portal, igloo_chest, underwater_ruin_big, village armorer/weaponsmith/toolsmith, bastion_other/bridge/hoglin_stable.
+- Trader: in 26.3 trades are data driven. Trades sitting in the vanilla `uncommon` pool (19 entries, 2 picked) showed up only ~10% of the time, so they now live in two own trade sets, `tada:wandering_trader/templates` and `tada:wandering_trader/armor` (amount 1 each), which `WanderingTraderMixin` rolls after vanilla's three sets. The chance per trader comes from the config (`traderTemplateChance` 60%, `traderArmorChance` 30%) through the `tada:chance` merchant predicate; `tada:random_template` picks a template with an ability.
 
 ## 9. Steps
 1. This spec (done once approved).
