@@ -19,14 +19,23 @@ import net.minecraft.world.item.equipment.trim.TrimPattern;
 public final class TadaClient implements ClientModInitializer {
 	private static final String TEMPLATE_SUFFIX = "_armor_trim_smithing_template";
 
-	/** onlyTadaArmor as reported by the server; null = unknown (server without TADA), then no armor hint is shown. */
-	private static volatile Boolean serverOnlyTadaArmor;
+	/**
+	 * onlyTadaArmor as reported by the server. Defaults to false (the mod default), so hints also show when the
+	 * sync packet has not arrived (yet) or the server does not run TADA. Only an explicit "true" from the server
+	 * hides the hint on non-TADA armor.
+	 */
+	private static volatile boolean serverOnlyTadaArmor;
 
 	@Override
 	public void onInitializeClient() {
 		ClientPlayNetworking.registerGlobalReceiver(ConfigSyncPayload.TYPE,
-			(payload, context) -> serverOnlyTadaArmor = payload.onlyTadaArmor());
-		ClientPlayConnectionEvents.DISCONNECT.register((handler, client) -> serverOnlyTadaArmor = null);
+			(payload, context) -> {
+				serverOnlyTadaArmor = payload.onlyTadaArmor();
+				Tada.LOGGER.info("Server config received: onlyTadaArmor={}", payload.onlyTadaArmor());
+			});
+		// Reset when a connection starts, not when the old one ends: the old connection's DISCONNECT event can
+		// fire late and would otherwise wipe a value the new server has already sent.
+		ClientPlayConnectionEvents.JOIN.register((handler, sender, client) -> serverOnlyTadaArmor = false);
 		ItemTooltipCallback.EVENT.register((stack, context, flag, lines) -> {
 			ArmorTrim trim = stack.get(DataComponents.TRIM);
 			if (trim != null) {
@@ -49,8 +58,7 @@ public final class TadaClient implements ClientModInitializer {
 
 	/** Hint on trimmed armor, only if this piece really gives the ability on the server. */
 	private static void addArmorHint(net.minecraft.world.item.ItemStack stack, ArmorTrim trim, java.util.List<Component> lines) {
-		Boolean onlyTada = serverOnlyTadaArmor;
-		if (onlyTada == null || (onlyTada && !TadaItems.ALL.contains(stack.getItem()))) {
+		if (serverOnlyTadaArmor && !TadaItems.ALL.contains(stack.getItem())) {
 			return;
 		}
 		TadaAbilities.Ability ability = trim.pattern().unwrapKey().map(TadaAbilities::forPattern).orElse(null);
