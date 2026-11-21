@@ -44,6 +44,7 @@ public final class TadaClient implements ClientModInitializer {
 		ItemTooltipCallback.EVENT.register(late, (stack, context, flag, lines) -> {
 			ArmorTrim trim = stack.get(DataComponents.TRIM);
 			if (trim != null) {
+				logOnce(stack, trim, lines.size());
 				addArmorHint(stack, trim, lines);
 				return;
 			}
@@ -59,6 +60,19 @@ public final class TadaClient implements ClientModInitializer {
 				lines.add(hint(ability).withStyle(ChatFormatting.GRAY));
 			}
 		});
+	}
+
+	private static final java.util.Set<String> LOGGED = java.util.concurrent.ConcurrentHashMap.newKeySet();
+
+	/** Diagnostics: log each (item, pattern) combination once, so a missing hint can be traced from latest.log. */
+	private static void logOnce(net.minecraft.world.item.ItemStack stack, ArmorTrim trim, int lineCount) {
+		String item = BuiltInRegistries.ITEM.getKey(stack.getItem()).toString();
+		String pattern = trim.pattern().getRegisteredName();
+		if (LOGGED.add(item + "|" + pattern)) {
+			TadaAbilities.Ability ability = trim.pattern().unwrapKey().map(TadaAbilities::forPattern).orElse(null);
+			Tada.LOGGER.info("Tooltip for trimmed {}: pattern={} kind={} ability={} onlyTadaArmor={} lines={}",
+				item, pattern, trim.pattern().kind(), ability, serverOnlyTadaArmor, lineCount);
+		}
 	}
 
 	/** Hint on trimmed armor, only if this piece really gives the ability on the server. */
