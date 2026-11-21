@@ -4,6 +4,7 @@ import net.fabricmc.api.ClientModInitializer;
 import net.fabricmc.fabric.api.client.networking.v1.ClientPlayConnectionEvents;
 import net.fabricmc.fabric.api.client.networking.v1.ClientPlayNetworking;
 import net.fabricmc.fabric.api.client.item.v1.ItemTooltipCallback;
+import net.fabricmc.fabric.api.event.Event;
 import net.minecraft.ChatFormatting;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.core.registries.Registries;
@@ -36,7 +37,11 @@ public final class TadaClient implements ClientModInitializer {
 		// Reset when a connection starts, not when the old one ends: the old connection's DISCONNECT event can
 		// fire late and would otherwise wipe a value the new server has already sent.
 		ClientPlayConnectionEvents.JOIN.register((handler, sender, client) -> serverOnlyTadaArmor = false);
-		ItemTooltipCallback.EVENT.register((stack, context, flag, lines) -> {
+		// Late phase: run after other mods' tooltip callbacks so a mod that rebuilds or filters the line list
+		// cannot drop our hint.
+		Identifier late = Identifier.fromNamespaceAndPath(Tada.MOD_ID, "late");
+		ItemTooltipCallback.EVENT.addPhaseOrdering(Event.DEFAULT_PHASE, late);
+		ItemTooltipCallback.EVENT.register(late, (stack, context, flag, lines) -> {
 			ArmorTrim trim = stack.get(DataComponents.TRIM);
 			if (trim != null) {
 				addArmorHint(stack, trim, lines);
